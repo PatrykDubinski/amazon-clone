@@ -6,11 +6,11 @@ import CheckoutProduct from "../Checkout/CheckoutProduct/CheckoutProduct";
 import { Link, useHistory } from "react-router-dom";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import CurrencyFormat from "react-currency-format";
-import { getBasketTotal } from "../store/reducer";
+import { actionTypes, getBasketTotal } from "../store/reducer";
 import axios from "../../axios";
 
 const Payment = () => {
-  const [{ basket, user }] = useStateValue();
+  const [{ basket, user }, dispatch] = useStateValue();
   const history = useHistory();
   const [error, setError] = useState(null);
   const [disabled, setDisabled] = useState(true);
@@ -30,6 +30,8 @@ const Payment = () => {
     getClientSecret();
   }, [basket]);
 
+  console.log(clientSecret);
+
   const stripe = useStripe();
   const elements = useElements();
 
@@ -47,6 +49,10 @@ const Payment = () => {
         setSucceeded(true);
         setError(null);
         setProcessing(false);
+
+        dispatch({
+          type: actionTypes.EMPTY_BASKET,
+        });
 
         history.replace("/orders");
       });
