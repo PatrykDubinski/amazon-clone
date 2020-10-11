@@ -1,8 +1,12 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Live version: [https://amaz-clone-17a77.web.app/](https://amaz-clone-17a77.web.app/)
 
 ## Available Scripts
 
 In the project directory, you can run:
+
+### `npm install`
+
+Install all dev dependencies
 
 ### `npm start`
 
