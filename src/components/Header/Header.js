@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Header.css";
 
 import SearchIcon from "@material-ui/icons/Search";
@@ -9,12 +9,16 @@ import { auth } from "../../firebase";
 
 const Header = () => {
   const [{ basket, user }] = useStateValue();
-  console.log(user);
+  const [menu, setMenu] = useState(false);
 
   const handleAuth = () => {
     if (user) {
       auth.signOut();
     }
+  };
+
+  const menuToggler = () => {
+    setMenu(!menu);
   };
 
   return (
@@ -59,6 +63,44 @@ const Header = () => {
             </span>
           </div>
         </Link>
+      </div>
+      <div className={`header__navSmall ${menu ? "active" : null}`}>
+        <Link to={!user && "/login"}>
+          <div onClick={handleAuth} className="header__option">
+            <span className="header__optionLineOne">
+              Hello {!user ? "Guest" : user.email}
+            </span>
+            <span className="header__optionLineTwo">
+              {user ? "Sign Out" : "Sign In"}
+            </span>
+          </div>
+        </Link>
+        <Link to="/orders">
+          <div className="header__option">
+            <span className="header__optionLineOne">Returns</span>
+            <span className="header__optionLineTwo">& orders</span>
+          </div>
+        </Link>
+        <div className="header__option">
+          <span className="header__optionLineOne">Your</span>
+          <span className="header__optionLineTwo">Prime</span>
+        </div>
+        <Link to="/checkout">
+          <div className="header__optionBasket">
+            <ShoppingBasketIcon />
+            <span className="header__optionLineTwo header__basketCount">
+              {basket?.length}
+            </span>
+          </div>
+        </Link>
+      </div>
+      <div
+        onClick={menuToggler}
+        className={`menu__toggler ${menu ? "open" : null}`}
+      >
+        <span></span>
+        <span></span>
+        <span></span>
       </div>
     </div>
   );
